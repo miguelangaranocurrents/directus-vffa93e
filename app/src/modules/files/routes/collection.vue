@@ -332,7 +332,8 @@ function useFileUpload() {
 			notificationsStore.remove(dragNotificationID);
 		}
 
-		const files = Array.from(event.dataTransfer.files).filter((file) => file.type);
+		// Dropped directories arrive as untyped, zero-byte entries; untyped files still have content.
+		const files = Array.from(event.dataTransfer.files).filter((file) => file.type || file.size > 0);
 
 		fileUploadNotificationID = notificationsStore.add({
 			title: t(
